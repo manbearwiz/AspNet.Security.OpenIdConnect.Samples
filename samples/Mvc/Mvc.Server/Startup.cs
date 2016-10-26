@@ -1,6 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using AspNet.Security.OAuth.Introspection;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -33,23 +34,23 @@ namespace Mvc.Server {
 
             // Create a new branch where the registered middleware will be executed only for API calls.
             app.UseWhen(context => context.Request.Path.StartsWithSegments(new PathString("/api")), branch => {
-                branch.UseOAuthValidation(new OAuthValidationOptions {
-                    AutomaticAuthenticate = true,
-                    AutomaticChallenge = true
-                });
+                // branch.UseOAuthValidation(new OAuthValidationOptions {
+                //     AutomaticAuthenticate = true,
+                //     AutomaticChallenge = true
+                // });
 
                 // Alternatively, you can also use the introspection middleware.
                 // Using it is recommended if your resource server is in a
                 // different application/separated from the authorization server.
                 // 
-                // branch.UseOAuthIntrospection(new OAuthIntrospectionOptions {
-                //     AutomaticAuthenticate = true,
-                //     AutomaticChallenge = true,
-                //     Authority = "http://localhost:54540/",
-                //     Audiences = { "resource_server" },
-                //     ClientId = "resource_server",
-                //     ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd"
-                // });
+                branch.UseOAuthIntrospection(new OAuthIntrospectionOptions {
+                    AutomaticAuthenticate = true,
+                    AutomaticChallenge = true,
+                    Authority = "http://mvc.server:54540/",
+                    Audiences = { "resource_server" },
+                    ClientId = "resource_server",
+                    ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd"
+                });
             });
 
             // Create a new branch where the registered middleware will be executed only for non API calls.
@@ -132,8 +133,8 @@ namespace Mvc.Server {
                 context.Applications.Add(new Application {
                     ApplicationID = "myClient",
                     DisplayName = "My client application",
-                    RedirectUri = "http://localhost:53507/signin-oidc",
-                    LogoutRedirectUri = "http://localhost:53507/",
+                    RedirectUri = "http://mvc.client:53507/signin-oidc",
+                    LogoutRedirectUri = "http://mvc.client:53507/",
                     Secret = "secret_secret_secret"
                 });
 

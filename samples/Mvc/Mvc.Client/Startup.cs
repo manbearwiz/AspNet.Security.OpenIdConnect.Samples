@@ -38,7 +38,7 @@ namespace Mvc.Client {
                 // inserted in the database at the server level.
                 ClientId = "myClient",
                 ClientSecret = "secret_secret_secret",
-                PostLogoutRedirectUri = "http://localhost:53507/",
+                PostLogoutRedirectUri = "http://mvc.client:53507/",
 
                 // Use the authorization code flow.
                 ResponseType = OpenIdConnectResponseType.Code,
@@ -46,7 +46,7 @@ namespace Mvc.Client {
                 // Note: setting the Authority allows the OIDC client middleware to automatically
                 // retrieve the identity provider's configuration and spare you from setting
                 // the different endpoints URIs or the token validation parameters explicitly.
-                Authority = "http://localhost:54540/"
+                Authority = "http://mvc.server:54540/"
             });
 
             app.UseStaticFiles();

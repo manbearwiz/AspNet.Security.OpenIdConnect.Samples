@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  mvc.client:
+    image: mvc.client:debug
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    ports:
+      - "53507:53507"
+    environment:
+      - REMOTE_DEBUGGING
+  mvc.server:
+    image: mvc.server:debug
+    ports:
+      - "54540:54540"
